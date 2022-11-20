@@ -4,6 +4,7 @@ import maya.cmds as cmds
 import logging
 
 from wiz_maya.modeling import modeling
+from wiz_maya import maya_utils
 logger = logging.getLogger(__name__)
 
 
@@ -20,6 +21,8 @@ def after_scene_openning(stage_name, string_asset):
 		The "scene_path" argument is the scene path, 
 		if there is no scene, it will be 'None' '''
 	logger.info(f"Current stage : {stage_name}")
+	maya = maya_utils.find_wizard_menu()
+	maya_utils.add_submenu_to_wizard(maya)
 	if stage_name == 'modeling':
 		cmds.evalDeferred(modeling.generate_export_groups)
 
