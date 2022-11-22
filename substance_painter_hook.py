@@ -1,6 +1,8 @@
 # coding: utf-8
 # Wizard hook
 
+from wiz_substance.painter import buildtex
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -30,6 +32,7 @@ def after_save(stage_name, string_asset, scene_path):
 
 		The "scene_path" argument is the saved 
 		incremental file'''
+	print("Prout")
 	pass		
 
 def sanity(stage_name, string_asset, exported_string_asset):
@@ -80,6 +83,10 @@ def after_export(stage_name, export_dir, string_asset, exported_string_asset):
 
 		The "exported_string_asset" argument is the
 		asset wizard just exported represented as string'''
+	print("Post export")
+	buildtex.sub()
+	buildtex.get_env()
+	buildtex.buildtex_window()
 	pass
 
 def after_reference(stage_name, 
