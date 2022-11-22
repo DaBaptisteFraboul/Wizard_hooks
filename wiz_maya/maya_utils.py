@@ -1,5 +1,7 @@
 import maya.cmds as cmds
 import pymel.core as pm
+from wiz_maya.wiztags_editor import start_editor
+from wiz_maya.wiztags_editor import path_utils
 
 def find_wizard_menu():
     """
@@ -19,5 +21,7 @@ def find_wizard_menu():
                 return child
 
 
-def add_submenu_to_wizard(wizard_menu):
-    submenu = pm.menuItem(parent = wizard_menu, subMenu=True, label='FraboulBox')
+def add_fraboulbox_to_wizard(wizard_menu):
+    fraboulbox = pm.menuItem(parent = wizard_menu, subMenu=True, label='FraboulBox')
+    return fraboulbox
+

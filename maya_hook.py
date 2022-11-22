@@ -1,15 +1,18 @@
 # coding: utf-8
 # Wizard hook
+import pymel.core as pm
 import maya.cmds as cmds
 import logging
 
 from wiz_maya.modeling import modeling
 from wiz_maya import maya_utils
+from wiz_maya.wiztags_editor import path_utils, start_editor
+
 logger = logging.getLogger(__name__)
 
 
 def after_scene_openning(stage_name, string_asset):
-	''' This function is triggered
+    ''' This function is triggered
 		when you open the software.
 
 		The "stage_name" argument is the name
@@ -20,15 +23,19 @@ def after_scene_openning(stage_name, string_asset):
 
 		The "scene_path" argument is the scene path, 
 		if there is no scene, it will be 'None' '''
-	logger.info(f"Current stage : {stage_name}")
-	maya = maya_utils.find_wizard_menu()
-	maya_utils.add_submenu_to_wizard(maya)
-	if stage_name == 'modeling':
-		cmds.evalDeferred(modeling.generate_export_groups)
+    logger.info(f"Current stage : {stage_name}")
+    maya = maya_utils.find_wizard_menu()
+    fraboul_box = maya_utils.add_fraboulbox_to_wizard(maya)
+    cmds.menuItem(parent=fraboul_box,
+                  c=start_editor.test,
+                  image=path_utils.get_abspath("icons/guerilla_render.png"),
+                  label='wizardTags Editor')
+    if stage_name == 'modeling':
+        cmds.evalDeferred(modeling.generate_export_groups)
 
 
 def after_save(stage_name, string_asset, scene_path):
-	''' This function is triggered
+    ''' This function is triggered
 		after an incremental save.
 
 		The "stage_name" argument is the name
@@ -39,11 +46,11 @@ def after_save(stage_name, string_asset, scene_path):
 
 		The "scene_path" argument is the saved 
 		incremental file'''
-	pass
+    pass
 
 
 def sanity(stage_name, string_asset, exported_string_asset):
-	''' This function is triggered
+    ''' This function is triggered
 		before the export and will stop the
 		export process if the returned data is 
 		"False"
@@ -56,11 +63,11 @@ def sanity(stage_name, string_asset, exported_string_asset):
 
 		The "exported_string_asset" argument is the
 		asset wizard will export represented as string'''
-	return True
+    return True
 
 
 def before_export(stage_name, string_asset, exported_string_asset):
-	''' This function is triggered
+    ''' This function is triggered
 		before the export 
 
 		The "stage_name" argument is the name
@@ -74,11 +81,11 @@ def before_export(stage_name, string_asset, exported_string_asset):
 
 		The "exported_string_asset" argument is the
 		asset wizard will export represented as string'''
-	return []
+    return []
 
 
 def after_export(stage_name, export_dir, string_asset, exported_string_asset):
-	''' This function is triggered
+    ''' This function is triggered
 		after the export
 
 		The "stage_name" argument is the name
@@ -92,17 +99,17 @@ def after_export(stage_name, export_dir, string_asset, exported_string_asset):
 
 		The "exported_string_asset" argument is the
 		asset wizard just exported represented as string'''
-	pass
+    pass
 
 
-def after_reference(stage_name, 
-						referenced_stage_name, 
-						referenced_files_dir,
-						namespace, 
- 						new_objects,
- 						string_asset,
- 						referenced_string_asset):
-	''' This function is triggered
+def after_reference(stage_name,
+                    referenced_stage_name,
+                    referenced_files_dir,
+                    namespace,
+                    new_objects,
+                    string_asset,
+                    referenced_string_asset):
+    ''' This function is triggered
 		after referencing from wizard
 
 		The "stage_name" argument is the name
@@ -124,5 +131,4 @@ def after_reference(stage_name,
 
 		The "referenced_string_asset" argument is the
 		asset wizard just imported represented as string'''
-	pass
-
+    pass
