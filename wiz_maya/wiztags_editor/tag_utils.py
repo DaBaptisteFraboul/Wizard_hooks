@@ -1,6 +1,6 @@
 import maya.cmds as cmds
 
-# Module related to GuerillaTags attribute and selection
+# Module related to wizardTags attribute and selection
 
 
 def get_cameras_transform_in_scene():
@@ -52,75 +52,75 @@ def get_obj_material(obj: str) -> str:
 # Tags related functions
 
 
-def create_gtags_attribute(obj) -> None:
+def create_wtags_attribute(obj) -> None:
     """
-    Create 'GuerillaTags' attribute on obj
+    Create 'wizardTags' attribute on obj
     :return:
     """
-    cmds.addAttr(obj, longName='GuerillaTags', dataType="string")
+    cmds.addAttr(obj, longName='wizardTags', dataType="string")
 
 
-def has_gtags_attribute(obj: str) -> bool:
+def has_wtags_attribute(obj: str) -> bool:
     """
-    Check whether GuerillaTags attribute exist on given object
+    Check whether wizardTags attribute exist on given object
     :param obj:
     :return:
     """
-    return cmds.attributeQuery("GuerillaTags", node=obj, exists=True)
+    return cmds.attributeQuery("wizardTags", node=obj, exists=True)
 
 
-def get_gtags_attribute(obj: str) -> str:
+def get_wtags_attribute(obj: str) -> str:
     """
-    Get GuerillaTags attributes from given object
+    Get wizardTags attributes from given object
     :param obj:
     :return: string
     """
-    return cmds.getAttr(f'{obj}.GuerillaTags')
+    return cmds.getAttr(f'{obj}.wizardTags')
 
 
-def set_gtags_attribute(obj: str, gtags: str) -> None:
+def set_wtags_attribute(obj: str, wtags: str) -> None:
     """
-    Set GuerillaTags on object
+    Set wizardTags on object
     :param obj:
-    :param gtags:
+    :param wtags:
     :return:
     """
-    cmds.setAttr(f'{obj}.GuerillaTags', gtags, typ='string')
+    cmds.setAttr(f'{obj}.wizardTags', wtags, typ='string')
 
 
-def convert_gtags_in_list(guerilla_tags: str) -> list:
+def convert_wtags_in_list(guerilla_tags: str) -> list:
     """
-    Convert Gtags string into a clean list
+    Convert wtags string into a clean list
     :param guerilla_tags:
     :return:
     """
     tags = guerilla_tags.replace(" ", "")
-    gtags_list = tags.split(",")
-    return gtags_list
+    wtags_list = tags.split(",")
+    return wtags_list
 
 
-def convert_gtags_in_string(guerilla_tags: list) -> str:
+def convert_wtags_in_string(guerilla_tags: list) -> str:
     """
     Convert a list of tags into the attribute string
     :param guerilla_tags:
     :return:
     """
-    gtags_string = str()
+    wtags_string = str()
     for tags in guerilla_tags:
         if tags == guerilla_tags[0]:
-            gtags_string += tags
+            wtags_string += tags
         else:
-            gtags_string += ', ' + tags
-    return gtags_string
+            wtags_string += ', ' + tags
+    return wtags_string
 
 
-def is_gtags_empty(obj) -> bool:
+def is_wtags_empty(obj) -> bool:
     """
-    Check if gtags is empty on object with the GuerillaTags attribute
+    Check if wtags is empty on object with the wizardTags attribute
     :param obj:
     :return:
     """
-    if not cmds.getAttr(f'{obj}.GuerillaTags'):
+    if not cmds.getAttr(f'{obj}.wizardTags'):
         return True
     else:
         return False
@@ -128,14 +128,14 @@ def is_gtags_empty(obj) -> bool:
 
 def add_gtag_to_attr(obj: str, tags: str) -> None:
     """
-    Add tag to existing GuerillaTags on given object
+    Add tag to existing wizardTags on given object
     :param obj:
     :param tags:
     :return:
     """
-    old_tags = get_gtags_attribute(obj)
+    old_tags = get_wtags_attribute(obj)
     if not old_tags:
         new_tags = tags
     else:
         new_tags = old_tags + ', ' + tags
-    set_gtags_attribute(obj, new_tags)
+    set_wtags_attribute(obj, new_tags)
