@@ -389,16 +389,19 @@ class wizardTagsEditor(QtWidgets.QDialog):
         for obj in tag_utils.get_clean_selection(self.affect_mode, self.object_blacklist):
 
             matname = tag_utils.get_obj_material(obj)
+            tagged = False
             if tag_utils.has_wtags_attribute(obj):
                 obj_tags = tag_utils.convert_wtags_in_list(tag_utils.get_wtags_attribute(obj))
                 if not tag_utils.is_wtags_empty(obj):
                     for tags in obj_tags:
                         if tags == matname:
-                                break
-                        if matname in self.materials_taglist or matname in tags:
+                            tagged = True
+                            break
+                        elif tags in self.materials_taglist :
                             obj_tags.remove(tags)
-                        obj_tags.append(tag_utils.get_obj_material(obj))
-                        tag_utils.set_wtags_attribute(obj, tag_utils.convert_wtags_in_string(obj_tags))
+                        else :
+                            obj_tags.append(matname)
+                            tag_utils.set_wtags_attribute(obj, tag_utils.convert_wtags_in_string(obj_tags))
                 else:
                     tag_utils.set_wtags_attribute(obj, matname)
             else :
@@ -459,9 +462,8 @@ class wizardTagsEditor(QtWidgets.QDialog):
         for obj in selection:
             if tag_utils.has_wtags_attribute(obj):
                 old_tags = tag_utils.convert_wtags_in_list(tag_utils.get_wtags_attribute(obj))
-                for tags in old_tags:
-                    if 'smooth' not in old_tags:
-                        tag_utils.add_gtag_to_attr(obj, 'smooth')
+                if 'smooth' not in old_tags:
+                    tag_utils.add_gtag_to_attr(obj, 'smooth')
             else:
                 print("No tags")
                 tag_utils.create_wtags_attribute(obj)

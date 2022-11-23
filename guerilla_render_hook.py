@@ -125,30 +125,5 @@ def after_reference(stage_name,
 
 		The "referenced_string_asset" argument is the
 		asset wizard just imported represented as string'''
-	modifier = guerilla.Modifier()
-	print("reference is working")
-	guerilla_utils.print_reference_data(stage_name,
-										referenced_stage_name,
-										referenced_files_dir,
-										namespace,
-										new_objects,
-										string_asset,
-										referenced_string_asset)
+	pass
 
-	file = guerilla_utils.get_reference_file(referenced_files_dir)[0]
-	print("- File path -")
-	print(file)
-	if referenced_stage_name == 'custom':
-		data_dict = guerilla_utils.get_data_from_asset_string(referenced_string_asset)
-		if data_dict['asset_name'] == 'rendergraphs' :
-			new_name = custom_import.get_new_name_from_data(data_dict)
-			if guerilla_utils.check_node_exists('CUSTOM|' + new_name):
-				wizard_reference.update_merge(new_name, file, 'CUSTOM')
-				node = guerilla.pynode('CUSTOM|' + new_name)
-				with modifier as mod:
-					mod.deletenode(node)
-			else :
-				parent_node = custom_import.create_custom_parent(new_name)
-				custom_import.move_namespace_data(name_space=namespace, new_parent=parent_node)
-				node_to_delete = guerilla.pynode('CUSTOM|'+namespace)
-				node_to_delete.delete()
