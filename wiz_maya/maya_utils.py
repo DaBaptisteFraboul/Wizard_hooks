@@ -25,3 +25,14 @@ def add_fraboulbox_to_wizard(wizard_menu):
     fraboulbox = pm.menuItem(parent = wizard_menu, subMenu=True, label='FraboulBox')
     return fraboulbox
 
+
+def set_project_aspect_ratio():
+    """
+    Set Maya scene resolution and aspect ratio for camera
+    """
+    cmds.setAttr("defaultResolution.aspectLock", 0)
+    cmds.setAttr("defaultResolution.width", 1920)
+    cmds.setAttr("defaultResolution.height", 1080)
+    cmds.setAttr("defaultResolution.pixelAspect", 1)
+    cmds.setAttr("defaultResolution.deviceAspectRatio", 1.777)
+    cmds.setAttr("defaultResolution.aspectLock", 1)

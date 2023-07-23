@@ -5,9 +5,11 @@ import maya.cmds as cmds
 import logging
 
 from wiz_maya.modeling import modeling
+from wiz_maya.layout import layout
 from wiz_maya import maya_utils
 from wiz_maya.wiztags_editor import path_utils, start_editor
 
+from maya_wizard import wizard_export
 logger = logging.getLogger(__name__)
 
 
@@ -32,6 +34,12 @@ def after_scene_openning(stage_name, string_asset):
                   label='wizardTags Editor')
     if stage_name == 'modeling':
         cmds.evalDeferred(modeling.generate_export_groups)
+    if stage_name == 'layout':
+        cmds.evalDeferred(layout.generate_export_groups)
+    if stage_name == 'animation':
+        maya_utils.set_project_aspect_ratio()
+    if stage_name == 'layout':
+        maya_utils.set_project_aspect_ratio()
 
 
 def after_save(stage_name, string_asset, scene_path):
@@ -81,7 +89,25 @@ def before_export(stage_name, string_asset, exported_string_asset):
 
 		The "exported_string_asset" argument is the
 		asset wizard will export represented as string'''
-    return []
+    print(f"Stage : {stage_name}")
+    extra_object = []
+    if stage_name == 'rigging':
+        if cmds.objExists("ControlSet") :
+            print("ControlSet found !")
+            logger.info("ControlSet found !")
+            extra_object.append("ControlSet")
+        else :
+            print("ControlSet not found!")
+            logger.info("ControlSet not found!")
+    # Export camrig for Houdini FX stage in layout
+    if stage_name == 'layout':
+        print(f"String asset : {exported_string_asset}")
+        if cmds.objExists("CAMRIG"):
+            # Trouver un moyen de recuperer le frame range de la l'asset export
+            wizard_export.export(stage_name, "Houdini_cam", string_asset,["|CAMRIG"] ,frange = [0,500],custom_work_env_id = None, percent_factor=(0,1))
+        else :
+            logger.info("No CAMRIG TO export")
+    return extra_object
 
 
 def after_export(stage_name, export_dir, string_asset, exported_string_asset):

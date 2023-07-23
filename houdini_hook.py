@@ -1,8 +1,10 @@
 # coding: utf-8
 # Wizard hook
-
+import os
 import logging
 logger = logging.getLogger(__name__)
+
+import hou
 
 def after_scene_openning(stage_name, string_asset):
 	''' This function is triggered
@@ -111,4 +113,15 @@ def after_reference(stage_name,
 
 		The "referenced_string_asset" argument is the
 		asset wizard just imported represented as string'''
-	pass
+
+	if "Houdini_cam" in referenced_files_dir:
+		# Check Camera exists
+		if not hou.node("/obj").node(f"{os.listdir(referenced_files_dir)[0].strip('.abc')}"):
+			print("CAMERA MERGE")
+			cam_file =f"{referenced_files_dir}/{os.listdir(referenced_files_dir)[0]}"
+			archive = hou.node("/obj").createNode("alembicarchive", node_name = f"{os.listdir(referenced_files_dir)[0].strip('.abc')}")
+			archive.parm("fileName").set(cam_file)
+			archive.parm("buildHierarchy").pressButton()
+		else :
+			print("Node exists")
+

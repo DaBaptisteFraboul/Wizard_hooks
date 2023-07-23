@@ -397,11 +397,11 @@ class wizardTagsEditor(QtWidgets.QDialog):
                         if tags == matname:
                             tagged = True
                             break
-                        elif tags in self.materials_taglist :
+                        elif tags in self.materials_taglist:
                             obj_tags.remove(tags)
-                        else :
-                            obj_tags.append(matname)
-                            tag_utils.set_wtags_attribute(obj, tag_utils.convert_wtags_in_string(obj_tags))
+                    if not tagged :
+                        obj_tags.append(matname)
+                        tag_utils.set_wtags_attribute(obj, tag_utils.convert_wtags_in_string(obj_tags))
                 else:
                     tag_utils.set_wtags_attribute(obj, matname)
             else :

@@ -4,6 +4,7 @@ import subprocess
 
 import substance_painter_hook
 import logging
+
 logger = logging.getLogger(__name__)
 
 def after_export(export_version_string,
@@ -25,8 +26,6 @@ def after_export(export_version_string,
 		The "gui" argument is true if wizard is openned 
 		with the user interface, if it is PyWizard or wizard_CMD,
 		gui will be false.'''
-	print(export_dir)
-	#substance_painter_hook.after_export(stage_name,export_dir,export_version_string, export_version_string)
 	pass
 
 def after_category_creation(string_category,

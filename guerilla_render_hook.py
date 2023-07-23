@@ -5,6 +5,9 @@ from wiz_guerilla import custom_import
 import guerilla_render_wizard.wizard_reference as wizard_reference
 import guerilla
 import logging
+
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -77,6 +80,7 @@ def before_export(stage_name, string_asset, exported_string_asset):
 
 		The "exported_string_asset" argument is the
 		asset wizard will export represented as string'''
+
 	return []
 
 def after_export(stage_name, export_dir, string_asset, exported_string_asset):
@@ -125,5 +129,5 @@ def after_reference(stage_name,
 
 		The "referenced_string_asset" argument is the
 		asset wizard just imported represented as string'''
-	pass
+	logger.info('Passed reference point')
 
